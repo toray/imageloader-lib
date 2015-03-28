@@ -89,7 +89,11 @@ public class ImageLoaderManager {
 		displayImage(url, iv, options, getAnimateFirstDisplayListener());
 	}
 	
-	public void displayImage(String url, ImageView iv, DisplayImageOptions option, SimpleImageLoadingListener listener){
-		ImageLoader.getInstance().displayImage(url, iv, option, listener);
+	public void displayImage(String url, ImageView iv, DisplayImageOptions options, SimpleImageLoadingListener listener){
+		ImageLoader.getInstance().displayImage(url, iv, options, listener);
+	}
+	
+	public void loadImage(String url, SimpleImageLoadingListener listener){
+		ImageLoader.getInstance().loadImage(url, options, listener);
 	}
 }
