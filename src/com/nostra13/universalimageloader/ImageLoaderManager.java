@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,11 +14,14 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 public class ImageLoaderManager {
+	static String TAG = ImageLoaderManager.class.getName();
+	
 	static ImageLoaderManager mImageManager;
 	DisplayImageOptions options;
 	AnimateFirstDisplayListener mAnimateFirstDisplayListener;
@@ -68,7 +72,7 @@ public class ImageLoaderManager {
 	}
 	
 	
-	static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+	public static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
 		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
 
@@ -84,16 +88,25 @@ public class ImageLoaderManager {
 			}
 		}
 	}
-	
+
 	public void displayImage(String url, ImageView iv){
 		displayImage(url, iv, options, getAnimateFirstDisplayListener());
 	}
 	
 	public void displayImage(String url, ImageView iv, DisplayImageOptions options, SimpleImageLoadingListener listener){
-		ImageLoader.getInstance().displayImage(url, iv, options, listener);
+		if(iv != null){
+			ImageLoader.getInstance().displayImage(url, iv, options, listener);
+		}else{
+			Log.e(TAG, "ImageView could not be null !!!");
+		}
 	}
 	
 	public void loadImage(String url, SimpleImageLoadingListener listener){
 		ImageLoader.getInstance().loadImage(url, options, listener);
 	}
+
+	public void loadImage(String url, ImageSize imageSize, SimpleImageLoadingListener listener){
+		ImageLoader.getInstance().loadImage(url, imageSize, options, listener);
+	}
+	
 }
